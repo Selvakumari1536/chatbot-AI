@@ -1,0 +1,407 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏥 Medical Advisory Chatbot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script> <!-- ADD THIS LINE - 'defer' attribute -->
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+                <div>
+                    <h1>Medical Advisory Chatbot</h1>
+                    <p>Personalized diet & daily routine advice</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-outline" id="clearChat">
+                    <i class="fas fa-trash-alt"></i> Clear Chat
+                </button>
+                <button class="btn btn-primary" id="emergencyBtn">
+                    <i class="fas fa-phone-alt"></i> Emergency Help
+                </button>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Left Sidebar -->
+            <aside class="sidebar left-sidebar">
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-stethoscope"></i> Common Conditions</h3>
+                    <div class="condition-buttons">
+                        <button class="condition-btn" data-condition="diabetes">
+                            <i class="fas fa-tint"></i> Diabetes
+                        </button>
+                        <button class="condition-btn" data-condition="hypertension">
+                            <i class="fas fa-heart"></i> Hypertension
+                        </button>
+                        <button class="condition-btn" data-condition="arthritis">
+                            <i class="fas fa-bone"></i> Arthritis
+                        </button>
+                        <button class="condition-btn" data-condition="weight-loss">
+                            <i class="fas fa-weight"></i> Weight Loss
+                        </button>
+                        <button class="condition-btn" data-condition="cholesterol">
+                            <i class="fas fa-chart-line"></i> High Cholesterol
+                        </button>
+                        <button class="condition-btn" data-condition="asthma">
+                            <i class="fas fa-lungs"></i> Asthma
+                        </button>
+                        <button class="condition-btn" data-condition="insomnia">
+                            <i class="fas fa-bed"></i> Insomnia
+                        </button>
+                        <button class="condition-btn" data-condition="digestive">
+                            <i class="fas fa-stomach"></i> Digestive Issues
+                        </button>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-lightbulb"></i> Quick Questions</h3>
+                    <div class="quick-questions">
+                        <button class="quick-btn">What's a healthy breakfast?</button>
+                        <button class="quick-btn">Best exercise for beginners?</button>
+                        <button class="quick-btn">How much water should I drink?</button>
+                        <button class="quick-btn">Foods to boost immunity</button>
+                        <button class="quick-btn">Managing stress naturally</button>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-cogs"></i> Settings</h3>
+                    <div class="settings">
+                        <div class="setting-item">
+                            <label for="aiMode"><i class="fas fa-robot"></i> AI Mode</label>
+                            <select id="aiMode" class="form-select">
+                                <option value="simulated">Simulated AI</option>
+                                <option value="advanced">Advanced Responses</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <label for="voiceInput"><i class="fas fa-microphone"></i> Voice Input</label>
+                            <label class="switch">
+                                <input type="checkbox" id="voiceInput">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <button class="btn btn-secondary" id="resetBtn">
+                            <i class="fas fa-redo"></i> Reset Chatbot
+                        </button>
+                    </div>
+                </div>
+
+                <div class="disclaimer-box">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Medical Disclaimer</h4>
+                    <p>This chatbot provides general information only. It is NOT a substitute for professional medical advice.</p>
+                    <button class="btn-link" id="showDisclaimer">Read Full Disclaimer</button>
+                </div>
+            </aside>
+
+            <!-- Main Chat Area -->
+            <main class="chat-area">
+                <div class="chat-header">
+                    <h2><i class="fas fa-comments"></i> Consultation with Dr. HealthBot</h2>
+                    <div class="chat-status">
+                        <span class="status-indicator online"></span>
+                        <span>Online</span>
+                    </div>
+                </div>
+
+                <div class="chat-container" id="chatContainer">
+                    <!-- Initial welcome message -->
+                    <div class="message bot-message">
+                        <div class="avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <strong>Dr. HealthBot</strong>
+                                <span class="message-time">Just now</span>
+                            </div>
+                            <p>👋 Hello! I'm Dr. HealthBot, your AI medical assistant. I can provide general advice on diet, exercise, and daily routines for common health conditions.</p>
+                            <p>How can I help you today? You can:</p>
+                            <ul>
+                                <li>Click on any condition in the sidebar</li>
+                                <li>Type your symptoms or questions</li>
+                                <li>Ask about diet or exercise plans</li>
+                            </ul>
+                            <div class="message-footer">
+                                <i class="fas fa-info-circle"></i> Remember: This is for educational purposes only.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input-container">
+                    <div class="input-tools">
+                        <button class="tool-btn" title="Attach File">
+                            <i class="fas fa-paperclip"></i>
+                        </button>
+                        <button class="tool-btn" title="Emoji">
+                            <i class="far fa-smile"></i>
+                        </button>
+                        <button class="tool-btn" title="Voice Message">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                    </div>
+                    <textarea 
+                        id="messageInput" 
+                        placeholder="Describe your symptoms or ask for health advice... (Press Enter to send, Shift+Enter for new line)"
+                        rows="2"
+                    ></textarea>
+                    <button class="send-btn" id="sendBtn">
+                        <i class="fas fa-paper-plane"></i> Send
+                    </button>
+                </div>
+
+                <div class="chat-suggestions">
+                    <p>Quick suggestions:</p>
+                    <button class="suggestion-btn">Diet for diabetes</button>
+                    <button class="suggestion-btn">Exercise for arthritis</button>
+                    <button class="suggestion-btn">Sleep improvement tips</button>
+                    <button class="suggestion-btn">Stress management</button>
+                </div>
+            </main>
+
+            <!-- Right Sidebar -->
+            <aside class="sidebar right-sidebar">
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-star"></i> Daily Health Tips</h3>
+                    <div class="health-tips">
+                        <div class="tip-card">
+                            <div class="tip-icon" style="background-color: #4dabf7;">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <div class="tip-content">
+                                <h4>Stay Hydrated</h4>
+                                <p>Drink 8-10 glasses of water daily. Add lemon for flavor!</p>
+                            </div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon" style="background-color: #69db7c;">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <div class="tip-content">
+                                <h4>Balanced Diet</h4>
+                                <p>Fill ½ plate with vegetables, ¼ protein, ¼ grains</p>
+                            </div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon" style="background-color: #ff922b;">
+                                <i class="fas fa-running"></i>
+                            </div>
+                            <div class="tip-content">
+                                <h4>Daily Movement</h4>
+                                <p>Aim for 10,000 steps or 30 minutes of exercise</p>
+                            </div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon" style="background-color: #ae3ec9;">
+                                <i class="fas fa-bed"></i>
+                            </div>
+                            <div class="tip-content">
+                                <h4>Quality Sleep</h4>
+                                <p>7-8 hours in a dark, cool room for optimal rest</p>
+                            </div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon" style="background-color: #f06595;">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div class="tip-content">
+                                <h4>Stress Management</h5>
+                                <p>5 minutes of daily meditation reduces cortisol</p>
+                            </div>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon" style="background-color: #ff6b6b;">
+                                <i class="fas fa-ban"></i>
+                            </div>
+                            <div class="tip-content">
+                                <h4>Avoid Processed Foods</h4>
+                                <p>Choose whole foods over packaged snacks</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-ambulance"></i> Emergency Contacts</h3>
+                    <div class="emergency-contacts">
+                        <div class="contact-item">
+                            <i class="fas fa-phone-alt emergency"></i>
+                            <div>
+                                <strong>Emergency</strong>
+                                <p>911 (USA) or 112 (EU)</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-pills"></i>
+                            <div>
+                                <strong>Poison Control</strong>
+                                <p>1-800-222-1222</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-headset"></i>
+                            <div>
+                                <strong>Mental Health</strong>
+                                <p>988 Suicide & Crisis Lifeline</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-book-medical"></i> Resources</h3>
+                    <div class="resources">
+                        <a href="https://www.cdc.gov" target="_blank" class="resource-link">
+                            <i class="fas fa-shield-alt"></i> CDC Guidelines
+                        </a>
+                        <a href="https://www.mayoclinic.org" target="_blank" class="resource-link">
+                            <i class="fas fa-hospital"></i> Mayo Clinic
+                        </a>
+                        <a href="https://www.who.int" target="_blank" class="resource-link">
+                            <i class="fas fa-globe-americas"></i> WHO Health Advice
+                        </a>
+                        <a href="https://www.heart.org" target="_blank" class="resource-link">
+                            <i class="fas fa-heartbeat"></i> American Heart Association
+                        </a>
+                    </div>
+                </div>
+
+                <div class="symptom-checker">
+                    <h3><i class="fas fa-clipboard-check"></i> Symptom Checker</h3>
+                    <select id="symptomSelect" class="form-select">
+                        <option value="">Select a symptom...</option>
+                        <option value="headache">Headache</option>
+                        <option value="fever">Fever</option>
+                        <option value="cough">Cough</option>
+                        <option value="fatigue">Fatigue</option>
+                        <option value="nausea">Nausea</option>
+                    </select>
+                    <button class="btn btn-secondary" id="checkSymptom">
+                        <i class="fas fa-search"></i> Check Symptom
+                    </button>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Modal for Full Disclaimer -->
+        <div id="disclaimerModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-exclamation-triangle"></i> Medical Disclaimer</h2>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="warning-box">
+                        <i class="fas fa-skull-crossbones"></i>
+                        <h3>IMPORTANT WARNING</h3>
+                        <p>This chatbot provides <strong>GENERAL EDUCATIONAL INFORMATION ONLY</strong>.</p>
+                    </div>
+                    
+                    <div class="disclaimer-content">
+                        <h4>What this chatbot is:</h4>
+                        <ul>
+                            <li>A tool for general health education</li>
+                            <li>A source of lifestyle suggestions</li>
+                            <li>An information resource about common conditions</li>
+                        </ul>
+
+                        <h4>What this chatbot is NOT:</h4>
+                        <ul>
+                            <li>A substitute for professional medical advice</li>
+                            <li>A diagnostic tool</li>
+                            <li>A treatment recommendation system</li>
+                            <li>An emergency medical service</li>
+                        </ul>
+
+                        <h4>You MUST:</h4>
+                        <ul>
+                            <li>Consult qualified healthcare providers for personal medical advice</li>
+                            <li>Never disregard professional medical advice</li>
+                            <li>Seek immediate help for medical emergencies</li>
+                            <li>Understand that individual conditions require personalized care</li>
+                        </ul>
+
+                        <h4>Emergency Situations:</h4>
+                        <p>If you experience any of the following, call emergency services immediately:</p>
+                        <div class="emergency-list">
+                            <span class="emergency-item">Chest pain</span>
+                            <span class="emergency-item">Difficulty breathing</span>
+                            <span class="emergency-item">Severe injury</span>
+                            <span class="emergency-item">Stroke symptoms</span>
+                            <span class="emergency-item">Suicidal thoughts</span>
+                        </div>
+
+                        <div class="acceptance-box">
+                            <label>
+                                <input type="checkbox" id="agreeDisclaimer">
+                                I understand and agree that this is for educational purposes only
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="acceptDisclaimer">I Understand</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><i class="fas fa-info-circle"></i> About</h4>
+                    <p>Educational medical chatbot for general health information</p>
+                </div>
+                <div class="footer-section">
+                    <h4><i class="fas fa-shield-alt"></i> Privacy</h4>
+                    <p>Your conversations are private and not stored</p>
+                </div>
+                <div class="footer-section">
+                    <h4><i class="fas fa-code"></i> Technology</h4>
+                    <p>Built with HTML, CSS, JavaScript & Simulated AI</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Medical Advisory Chatbot. For educational purposes only.</p>
+                <div class="footer-links">
+                    <a href="#">Terms of Use</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Typing Indicator Template -->
+    <template id="typingIndicator">
+        <div class="message bot-message typing">
+            <div class="avatar">
+                <i class="fas fa-robot"></i>
+            </div>
+            <div class="message-content">
+                <div class="message-header">
+                    <strong>Dr. HealthBot</strong>
+                    <span class="message-time">Typing...</span>
+                </div>
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="script.js"></script>
+</body>
+</html>
